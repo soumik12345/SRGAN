@@ -1,22 +1,20 @@
 import tensorflow as tf
 
 
-def normalize(x, mode='01'):
-    '''Normalize tensor
-    Params:
-        x    -> Tensor
-        mode -> '01' meaning [0, 1] or '-11' meaning [-1, 1]
-    '''
-    return x / 255.0 if mode == '01' else x / 127.5 - 1
+def normalize_0_1(x):
+    return x / 255.0
 
 
-def denormalize(x, mode='01'):
-    '''DeNormalize tensor
-    Params:
-        x    -> Tensor
-        mode -> '01' meaning [0, 1] or '-11' meaning [-1, 1]
-    '''
-    return x * 255.0 if mode == '01' else (x + 1) * 127.5
+def normalize_1_1(x):
+    return x / 127.5 - 1
+
+
+def denormalize_0_1(x):
+    return x * 255.0
+
+
+def denormalize_1_1(x):
+    return (x + 1) * 127.5
 
 
 def pixel_shuffle(scale):
