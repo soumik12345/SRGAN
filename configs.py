@@ -1,2 +1,2 @@
-HR_SHAPE = (256, 256)
-LR_SHAPE = (64, 64)
+HR_SHAPE = [256, 256]
+LR_SHAPE = [64, 64]

@@ -1,4 +1,4 @@
-import os
+import os, random
 from .utils import *
 from configs import *
 import tensorflow as tf
@@ -8,6 +8,7 @@ AUTOTUNE = tf.data.experimental.AUTOTUNE
 
 
 def load_data(hr_file, lr_file):
+    seed = random.randint(0, 1000)
     hr = tf.io.read_file(hr_file)
     hr = tf.image.decode_png(hr, channels=3)
     hr = tf.cast(hr, dtype=tf.float32)

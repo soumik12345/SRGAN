@@ -43,27 +43,13 @@ def random_rotate(lr_img, hr_img):
     return tf.image.rot90(lr_img, rn), tf.image.rot90(hr_img, rn)
 
 
-def _random_crop(image, height, width):
-    image_dims = image.shape
-    offset_h = tf.random.uniform(
-        shape=(1,),
-        maxval=image_dims[0] - height,
-        dtype=tf.int32
-    )[0]
-    offset_w = tf.random.uniform(
-        shape=(1,),
-        maxval=image_dims[1] - width,
-        dtype=tf.int32
-    )[0]
-    image = tf.image.crop_to_bounding_box(
-        image,
-        offset_height=offset_h, offset_width=offset_w,
-        target_height=H, target_width=W
-    )
-    return image
-
-
-def random_crop(lr_image, hr_image):
-    lr_crop = _random_crop(lr_image, LR_SHAPE[0], LR_SHAPE[1])
-    hr_crop = _random_crop(hr_image, HR_SHAPE[0], HR_SHAPE[1])
-    return lr_crop, hr_crop
+def random_crop(lr_img, hr_img, hr_crop_size=256, scale=2):
+    lr_crop_size = hr_crop_size // scale
+    lr_img_shape = tf.shape(lr_img)[:2]
+    lr_w = tf.random.uniform(shape=(), maxval=lr_img_shape[1] - lr_crop_size + 1, dtype=tf.int32)
+    lr_h = tf.random.uniform(shape=(), maxval=lr_img_shape[0] - lr_crop_size + 1, dtype=tf.int32)
+    hr_w = lr_w * scale
+    hr_h = lr_h * scale
+    lr_img_cropped = lr_img[lr_h:lr_h + lr_crop_size, lr_w:lr_w + lr_crop_size]
+    hr_img_cropped = hr_img[hr_h:hr_h + hr_crop_size, hr_w:hr_w + hr_crop_size]
+    return lr_img_cropped, hr_img_cropped
