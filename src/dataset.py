@@ -1,4 +1,5 @@
 import os
+from .utils import *
 from configs import *
 import tensorflow as tf
 
@@ -22,10 +23,18 @@ def get_dataset(hr_path, lr_path, buffer_size, batch_size):
     dataset = tf.data.Dataset.from_tensor_slices((hr_path, lr_path))
     dataset = dataset.map(
         map_func=load_data,
-        num_parallel_calls=tf.data.experimental.AUTOTUNE
+        num_parallel_calls=AUTOTUNE
+    )
+    dataset = dataset.map(
+        map_func=random_flip,
+        num_parallel_calls=AUTOTUNE
+    )
+    dataset = dataset.map(
+        map_func=random_rotate,
+        num_parallel_calls=AUTOTUNE
     )
     dataset = dataset.shuffle(buffer_size).batch(batch_size)
     dataset = dataset.prefetch(
-        buffer_size=tf.data.experimental.AUTOTUNE
+        buffer_size=AUTOTUNE
     )
     return dataset
