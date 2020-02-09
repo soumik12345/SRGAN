@@ -4,7 +4,7 @@ import tensorflow as tf
 
 bce = tf.keras.losses.BinaryCrossentropy(from_logits=False)
 mse = tf.keras.losses.MeanSquaredError()
-vgg = vgg_model(5)
+vgg = vgg_model(20)
 
 
 def generator_loss(self, generator_output):
