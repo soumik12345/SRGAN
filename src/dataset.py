@@ -4,7 +4,7 @@ from configs import *
 import tensorflow as tf
 
 
-AUTOTUNE = tf.python.data.experimental.AUTOTUNE
+AUTOTUNE = tf.data.experimental.AUTOTUNE
 
 
 def load_data(hr_file, lr_file):
