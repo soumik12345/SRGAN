@@ -3,6 +3,17 @@ from .blocks import *
 import tensorflow as tf
 
 
+def vgg_model(output_layer):
+    vgg19 = tf.keras.applications.vgg19.VGG19(
+        input_shpe=[None, None, 3],
+        include_top=False
+    )
+    return tf.keras.Model(
+        vgg19.input,
+        vgg19.layers[output_layer].output
+    )
+
+
 def Generator(input_shape, filters=64, n_res_blocks=16):
     input_tensor = tf.keras.layers.Input(shape=input_shape)
     x = tf.keras.layers.Lambda(normalize_0_1)(input_tensor)
