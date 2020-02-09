@@ -5,7 +5,7 @@ import tensorflow as tf
 
 def vgg_model(output_layer):
     vgg19 = tf.keras.applications.vgg19.VGG19(
-        input_shpe=[None, None, 3],
+        input_shape=[None, None, 3],
         include_top=False
     )
     return tf.keras.Model(
