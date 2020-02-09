@@ -1,3 +1,4 @@
+from configs import *
 import tensorflow as tf
 
 
@@ -40,3 +41,29 @@ def random_rotate(lr_img, hr_img):
         dtype=tf.int32
     )
     return tf.image.rot90(lr_img, rn), tf.image.rot90(hr_img, rn)
+
+
+def _random_crop(image, height, width):
+    image_dims = image.shape
+    offset_h = tf.random.uniform(
+        shape=(1,),
+        maxval=image_dims[0] - height,
+        dtype=tf.int32
+    )[0]
+    offset_w = tf.random.uniform(
+        shape=(1,),
+        maxval=image_dims[1] - width,
+        dtype=tf.int32
+    )[0]
+    image = tf.image.crop_to_bounding_box(
+        image,
+        offset_height=offset_h, offset_width=offset_w,
+        target_height=H, target_width=W
+    )
+    return image
+
+
+def random_crop(lr_image, hr_image):
+    lr_crop = _random_crop(lr_image, LR_SHAPE[0], LR_SHAPE[1])
+    hr_crop = _random_crop(hr_image, HR_SHAPE[0], HR_SHAPE[1])
+    return lr_crop, hr_crop
