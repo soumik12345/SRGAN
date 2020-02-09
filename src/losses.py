@@ -17,6 +17,7 @@ def discriminator_loss(self, hr_output, sr_output):
     return hr_loss + sr_loss
 
 
+@tf.function
 def content_loss(hr, sr):
     hr = tf.keras.applications.vgg19.preprocess_input(hr)
     sr = tf.keras.applications.vgg19.preprocess_input(sr)
